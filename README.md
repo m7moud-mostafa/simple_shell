@@ -42,14 +42,6 @@ Or in non-interactive mode:
 $ echo "/bin/ls" | ./hsh
 ```
 
-## Project Requirements
-
-- All files should end with a new line
-- Code should follow the Betty style and documentation guidelines
-- No memory leaks
-- Maximum of five functions per file
-- All header files should be include guarded
-
 ## Features
 
 - Basic command line interpretation
