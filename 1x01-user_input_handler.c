@@ -13,12 +13,34 @@ char **get_user_input()
 	char *command_prompt = "($) ";
 	size_t n = 0;
 	ssize_t n_chars;
+	char **arguments;
 
 	_printf(command_prompt);
+
 	n_chars = getline(&command_string, &n, stdin);
-
-
+	if (n_chars == -1)
+	{
+		if (isatty(STDIN_FILENO))
+		{
+			free(command_string);
+			_printf("\n");
+			exit(0);
+		}
+		else
+		{
+			free(command_string);
+			return (NULL);
+		}
+	}
+	arguments = string_splitter(command_string, ' ');
+	if (!arguments)
+	{
+		free(command_string);
+		perror("string splitter error");
+		return (NULL);
+	}
 	free(command_string);
+	return (arguments);
 }
 
 
@@ -37,6 +59,7 @@ char **string_splitter(char *str, char sep)
 	int n_separator = 0;
 	int string_length = 0;
 	char **strings_array;
+	char *s;
 
 	if (!str)
 		return (NULL);
@@ -57,7 +80,14 @@ char **string_splitter(char *str, char sep)
 		if (str[i] != sep)
 		{
 			word_num++;
-			strings_array[word_num] = extract_word(str, &i, sep);
+			s = extract_word(str, &i, sep);
+			if (!s)
+			{
+				free_strings_array(strings_array);
+				return (NULL);
+			}
+
+			strings_array[word_num] = s;
 		}
 	}
 
@@ -97,6 +127,7 @@ char *extract_word(char *str, int *i, char sep)
 	return (s);
 }
 
+
 /**
  * free_strings_array - A function that frees an array of strings
  *
@@ -116,16 +147,63 @@ void free_strings_array(char **strings_array)
 }
 
 
+/**
+ * _strcmp - compares between two integers
+ *
+ * @str1: first string
+ * @str2: second string
+ * Return: 0 if they are not the same
+ *		   1 if they are the same
+ */
+char _strcmp(char *str1, char *str2)
+{
+	char is_same;
+	int len1;
+	int len2;
+	int i;
+
+	if (!str1 || !str2)
+		return (0);
+
+	len1 = _strlen(str1);
+	len2 = _strlen(str2);
+
+	if (len1 != len2)
+		return (0);
+
+	for (i = 0; str1[i] != '\0'; i++)
+	{
+		if (str1[i] != str2[i])
+			return (0);
+	}
+	return (1);
+
+}
+
+
 int main(void)
 {
-	char *s = "  mahmoud maostafa ahmed ismail mostafa  mohamed elsharwy\n";
 	char **array;
 	int i;
 
-	array = string_splitter(s, ' ');
+	while (1)
+	{
+		array = get_user_input();
+		if (!array)
+		{
 
-	for (i = 0; array[i] != NULL; i++)
-		_printf("%s\n",array[i]);
+			perror("error in main");
+			return (1);
+		}
 
-	free_strings_array(array);
+		if (_strcmp(array[0], "exit"))
+		{
+			free_strings_array(array);
+			exit(0);
+		}
+		for (i = 0; array[i] != NULL; i++)
+			_printf("%s\n",array[i]);
+		free_strings_array(array);
+	}
+	return (0);
 }
