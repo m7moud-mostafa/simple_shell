@@ -4,13 +4,13 @@
  * get_user_input - A function that asks a user to give command
  *					  and split it and put it in an array.
  *
- * Return: array of strings that ends with NULL pointer (user splitted input)
- *
+ * Return: If Success - array of strings that ends with NULL pointer (user splitted input)
+ *		   If Failure - NULL if failed.
  */
 char **get_user_input()
 {
 	char *command_string = NULL;
-	char *command_prompt = "Command_Me_my_Queen($) ";
+	char *command_prompt = "($) ";
 	size_t n = 0;
 	ssize_t n_chars;
 	char **arguments;
@@ -144,38 +144,4 @@ void free_strings_array(char **strings_array)
 	}
 
 	free(strings_array);
-}
-
-
-/**
- * _strcmp - compares between two integers
- *
- * @str1: first string
- * @str2: second string
- * Return: 0 if they are not the same
- *		   1 if they are the same
- */
-char _strcmp(char *str1, char *str2)
-{
-	char is_same;
-	int len1;
-	int len2;
-	int i;
-
-	if (!str1 || !str2)
-		return (0);
-
-	len1 = _strlen(str1);
-	len2 = _strlen(str2);
-
-	if (len1 != len2)
-		return (0);
-
-	for (i = 0; str1[i] != '\0'; i++)
-	{
-		if (str1[i] != str2[i])
-			return (0);
-	}
-	return (1);
-
 }

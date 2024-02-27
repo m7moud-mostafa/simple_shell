@@ -13,11 +13,29 @@
 #include <sys/wait.h>  /* For wait, waitpid, wait3, wait4 */
 #include "main.h"      /* For _printf */
 
+
+/**
+ * struct function - A structure that connects the function name with
+ *					 it's string
+ *
+ * @call: The String with which the function get called
+ * @f: The function associated
+ */
+typedef struct function
+{
+	char *call;
+	void (*f)(char **, char **);
+} fun_t;
+
 char **get_user_input();
 char **string_splitter(char *string, char separator);
 void free_strings_array(char **strings_array);
 char *extract_word(char *str, int *i, char sep);
-char _strcmp(char *str1, char *str2);
-void exec(char **argv, char **env);
 
+void exec(char **argv, char **env);
+void __exit(char **argv, char **env);
+void (*get_command(char *s))(char **, char **);
+void env(char **argv, char **env);
+char *get_env_variable(char *var, char **env);
+char *get_command_path(char *command, char **env);
 #endif
