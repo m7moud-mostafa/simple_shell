@@ -111,10 +111,10 @@ char *_strcat(char *str1, char *str2)
 
 
 /**
- * _strdup - Create a array object
+ * _strdup - Duplicates the string
  *
  * @str: string
- * Return: something
+ * Return: duplicated string
  */
 
 
