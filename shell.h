@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include <stdio.h>     /* For printf, fflush, getline, perror */
+#include <stdio.h>     /* For fflush, getline, perror */
 #include <stdlib.h>    /* For malloc, free, exit */
 #include <unistd.h>    /* For access, chdir, close, execve, _exit, fork, getcwd, getpid, isatty, read, write */
 #include <sys/types.h> /* For open, stat, lstat, fstat, wait, waitpid, wait3, wait4 */
@@ -17,6 +17,7 @@ char **get_user_input();
 char **string_splitter(char *string, char separator);
 void free_strings_array(char **strings_array);
 char *extract_word(char *str, int *i, char sep);
-
+char _strcmp(char *str1, char *str2);
+void exec(char **argv, char **env);
 
 #endif

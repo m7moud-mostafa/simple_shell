@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * get_user_input() - A function that asks a user to give command
+ * get_user_input - A function that asks a user to give command
  *					  and split it and put it in an array.
  *
  * Return: array of strings that ends with NULL pointer (user splitted input)
@@ -10,7 +10,7 @@
 char **get_user_input()
 {
 	char *command_string = NULL;
-	char *command_prompt = "($) ";
+	char *command_prompt = "Command_Me_my_Queen($) ";
 	size_t n = 0;
 	ssize_t n_chars;
 	char **arguments;
@@ -178,32 +178,4 @@ char _strcmp(char *str1, char *str2)
 	}
 	return (1);
 
-}
-
-
-int main(void)
-{
-	char **array;
-	int i;
-
-	while (1)
-	{
-		array = get_user_input();
-		if (!array)
-		{
-
-			perror("error in main");
-			return (1);
-		}
-
-		if (_strcmp(array[0], "exit"))
-		{
-			free_strings_array(array);
-			exit(0);
-		}
-		for (i = 0; array[i] != NULL; i++)
-			_printf("%s\n",array[i]);
-		free_strings_array(array);
-	}
-	return (0);
 }
