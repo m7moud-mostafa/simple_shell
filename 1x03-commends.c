@@ -18,10 +18,10 @@ int (*get_command(char *s))(char **, char **)
 	};
 	int i = 0;
 
-	while (commands[i].call != NULL && *(commands[i].call) != *s)
+	while (commands[i].call != NULL && !_strcmp(commands[i].call, s))
 		i++;
 
-	if (commands[i].call == NULL || s[1] != '\0')
+	if (commands[i].call == NULL)
 		return (exec);
 
 	return (commands[i].f);
@@ -81,6 +81,7 @@ int env(char **argv, char **env)
 		while (env[i] != NULL)
 		{
 			_printf("%s\n", env[i]);
+			i++;
 		}
 		exit(EXIT_SUCCESS);
 	}
