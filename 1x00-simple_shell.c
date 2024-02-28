@@ -41,7 +41,10 @@ void interactive_mode(int ac, char **av, char **env)
 			status = 127;
 		}
 		else if (status == 2)
+		{
 			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, av[2]);
+			exit(2);
+		}
 		i++;
 	}
 	while (1)
@@ -58,7 +61,10 @@ void interactive_mode(int ac, char **av, char **env)
 			status = 127;
 		}
 		else if (status == 2)
-			_printf("%s: %i: exit: Illegal number: %s\n", av[0], i, argv[1]);
+		{
+			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, argv[1]);
+			exit(2);
+		}
 		free_strings_array(argv);
 		i++;
 	}
@@ -97,8 +103,10 @@ void non_interactive_mode(char **av, char **env)
 			status = 127;
 		}
 		else if (status == 2)
+		{
 			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, av[2]);
-
+			exit(2);
+		}
 		free_strings_array(argv);
 		i++;
 	}
