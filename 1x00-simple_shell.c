@@ -13,6 +13,7 @@ int main(int ac, char **av, char **env)
 		interactive_mode(ac, av, env);
 	else
 		non_interactive_mode(av, env);
+	return (0);
 }
 
 void interactive_mode(int ac, char **av, char **env)
