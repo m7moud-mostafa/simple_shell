@@ -35,7 +35,7 @@ int (*get_command(char *s))(char **, char **)
  * @env: Environment variables
  * Return: -1 for failure
  */
-int __exit(char **argv, char **env)
+int __exit(char **argv, __attribute__((unused)) char **env)
 {
 	if (argv == NULL)
 		exit(EXIT_FAILURE);

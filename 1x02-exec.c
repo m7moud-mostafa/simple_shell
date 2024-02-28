@@ -47,9 +47,8 @@ int exec(char **argv, char **env)
 		free(path_command);
 		if (status == EXIT_FAILURE)
 			return (-1);
-
-		return (status);
 	}
+	return (status);
 }
 
 /**

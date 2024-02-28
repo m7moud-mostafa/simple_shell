@@ -59,7 +59,6 @@ char **string_splitter(char *str, char sep)
 	int n_separator = 0;
 	int string_length = 0;
 	char **strings_array;
-	char *s;
 
 	if (!str)
 		return (NULL);

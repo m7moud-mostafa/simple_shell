@@ -46,7 +46,6 @@ int power(int base, int exponent)
  */
 char _strcmp(char *str1, char *str2)
 {
-	char is_same;
 	int len1;
 	int len2;
 	int i;

@@ -9,7 +9,6 @@
  */
 int main(int ac, char **av, char **env)
 {
-	pid_t pid;
 	int status;
 	char **argv;
 	int (*command)(char **, char**);
