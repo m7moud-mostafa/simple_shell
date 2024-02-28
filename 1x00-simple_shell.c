@@ -30,30 +30,26 @@ void interactive_mode(int ac, char **av, char **env)
 	int i = 1;
 
 	if (!av || !env)
-	{
-		perror("av or env inside tha main are NULL\n");
-		exit(EXIT_FAILURE);	}
+		exit(EXIT_FAILURE);
 	if (ac > 1)
 	{
 		command = get_command(av[1]);
 		status = (command)(av + 1, env);
 		if (status == -1)
 		{
-			/* _printf("%s: %i: %s: not found\n", av[0], i, av[1]); */
-			/* status = 127; */
-			_printf("%s", av[0]);
-			perror(": No such file or directory\n");
+			_printf("%s: %i: %s: not found\n", av[0], i, av[1]);
+			status = 127;
 		}
+		else if (status == 2)
+			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, av[2]);
 		i++;
 	}
 	while (1)
 	{
 		argv = get_user_input();
 		if (!argv)
-		{
-			perror("argv inside the main is NULL\n");
 			exit(EXIT_FAILURE);
-		}
+
 		command = get_command(argv[0]);
 		status = command(argv, env);
 		if (status == -1)
@@ -61,6 +57,8 @@ void interactive_mode(int ac, char **av, char **env)
 			_printf("%s: %i: %s: not found\n", av[0], i, argv[0]);
 			status = 127;
 		}
+		else if (status == 2)
+			_printf("%s: %i: exit: Illegal number: %s\n", av[0], i, argv[1]);
 		free_strings_array(argv);
 		i++;
 	}
@@ -88,7 +86,6 @@ void non_interactive_mode(char **av, char **env)
 		if (!argv)
 		{
 			free(command_string);
-			perror("string splitter error\n");
 			exit(EXIT_FAILURE);
 		}
 
@@ -96,11 +93,11 @@ void non_interactive_mode(char **av, char **env)
 		status = command(argv, env);
 		if (status == -1)
 		{
-			/* _printf("%s: %i: %s: not found\n", av[0], i, av[1]); */
-			/* status = 127; */
-			_printf("%s", av[0]);
-			perror(": No such file or directory\n");
+			_printf("%s: %i: %s: not found\n", av[0], i, av[1]);
+			status = 127;
 		}
+		else if (status == 2)
+			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, av[2]);
 
 		free_strings_array(argv);
 		i++;
