@@ -31,43 +31,39 @@ void interactive_mode(int ac, char **av, char **env)
 
 	if (!av || !env)
 		exit(EXIT_FAILURE);
-	if (ac > 1)
-	{
-		command = get_command(av[1]);
-		status = (command)(av + 1, env);
-		if (status == -1)
-		{
-			_printf("%s: %i: %s: not found\n", av[0], i, av[1]);
-			status = 127;
-		}
-		else if (status == 2)
-		{
-			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, av[2]);
-			exit(2);
-		}
-		i++;
-	}
 	while (1)
 	{
-		argv = get_user_input();
-		if (!argv)
-			exit(EXIT_FAILURE);
+		if (ac > 1 && i == 1)
+		{
+			command = get_command(av[1]);
+			status = (command)(av + 1, env);
+			if (status == -1)
+			{
+				_printf("%s: %i: %s: not found\n", av[0], i, av[1]);
+				status = 127;
+			}
+			else if (status == 2)
+			{
+				_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, av[2]);
+				exit(2); }
+		}
+		else
+		{
+			argv = get_user_input();
+			if (!argv)
+				exit(EXIT_FAILURE);
 
-		command = get_command(argv[0]);
-		status = command(argv, env);
-		if (status == -1)
-		{
-			_printf("%s: %i: %s: not found\n", av[0], i, argv[0]);
-			status = 127;
+			command = get_command(argv[0]);
+			status = command(argv, env);
+			if (status == -1)
+			{	_printf("%s: %i: %s: not found\n", av[0], i, argv[0]);
+				status = 127; }
+			else if (status == 2)
+			{	_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, argv[1]);
+				exit(2); }
+			free_strings_array(argv);
 		}
-		else if (status == 2)
-		{
-			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, argv[1]);
-			exit(2);
-		}
-		free_strings_array(argv);
-		i++;
-	}
+		i++; }
 }
 
 /**
