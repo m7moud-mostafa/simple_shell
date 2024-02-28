@@ -58,9 +58,7 @@ int __exit(char **argv, __attribute__((unused)) char **env)
  */
 int env(char **argv, char **env)
 {
-	pid_t pid;
 	int i = 0;
-	int status;
 
 	if (!argv)
 		return (-1);
@@ -68,28 +66,11 @@ int env(char **argv, char **env)
 	if (!env)
 		return (0);
 
+	while (env[i] != NULL)
+	{
+		_printf("%s\n", env[i]);
+		i++;
+	}
+	return (0);
 
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("error with creating process\n");
-		return (-1);
-	}
-
-	if (pid == 0)
-	{
-		while (env[i] != NULL)
-		{
-			_printf("%s\n", env[i]);
-			i++;
-		}
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		wait(&status);
-		if (status != EXIT_SUCCESS)
-			return (-1);
-		return (status);
-	}
 }
