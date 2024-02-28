@@ -56,12 +56,9 @@ int __exit(char **argv, __attribute__((unused)) char **env)
  * @env: Environment variables
  * Return: -1 for Failure
  */
-int env(char **argv, char **env)
+int env(__attribute__((unused)) char **argv, char **env)
 {
 	int i = 0;
-
-	if (!argv)
-		return (-1);
 
 	if (!env)
 		return (0);
