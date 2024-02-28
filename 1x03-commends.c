@@ -73,7 +73,7 @@ int env(char **argv, char **env)
 	if (pid == -1)
 	{
 		perror("error with creating process\n");
-		return(-1);
+		return (-1);
 	}
 
 	if (pid == 0)

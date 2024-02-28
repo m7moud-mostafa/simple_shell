@@ -37,7 +37,7 @@ int power(int base, int exponent)
 
 
 /**
- * _strcmp - compares between two integers
+ * _strcmp - compares between two strings
  *
  * @str1: first string
  * @str2: second string
