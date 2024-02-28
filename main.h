@@ -13,6 +13,6 @@ void u_handler(unsigned int num, int *len);
 unsigned int _strlen(char *str);
 int power(int base, int exponent);
 char _strcmp(char *str1, char *str2);
-char *_strcat(char *str1, char *str2);
+char *_strcat_command(char *str1, char *str2);
 char *_strdup(char *str);
 #endif

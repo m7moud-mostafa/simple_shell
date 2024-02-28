@@ -55,7 +55,7 @@ char **get_user_input()
 char **string_splitter(char *str, char sep)
 {
 	int i;
-	int word_num = -1;
+	int word_num = 0;
 	int n_separator = 0;
 	int string_length = 0;
 	char **strings_array;
@@ -75,23 +75,24 @@ char **string_splitter(char *str, char sep)
 	if (!strings_array)
 		return (NULL);
 
-	for (i = 0; str[i] != '\0' && str[i] != '\n'; i++)
+	i = 0;
+	while (str[i] != '\0' && str[i] != '\n')
 	{
 		if (str[i] != sep)
 		{
-			word_num++;
-			s = extract_word(str, &i, sep);
-			if (!s)
+
+			strings_array[word_num] = extract_word(str, &i, sep);
+			if (!strings_array[word_num])
 			{
 				free_strings_array(strings_array);
 				return (NULL);
 			}
-
-			strings_array[word_num] = s;
+			word_num++;
 		}
+		else
+			i++;
 	}
-
-	strings_array[word_num + 1] = NULL;
+	strings_array[word_num] = NULL;
 	return (strings_array);
 }
 

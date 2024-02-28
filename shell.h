@@ -27,15 +27,21 @@ typedef struct function
 	int (*f)(char **, char **);
 } fun_t;
 
+/* Functions to handle user input */
 char **get_user_input();
 char **string_splitter(char *string, char separator);
 void free_strings_array(char **strings_array);
 char *extract_word(char *str, int *i, char sep);
 
-void exec(char **argv, char **env);
-void __exit(char **argv, char **env);
-void (*get_command(char *s))(char **, char **);
-void env(char **argv, char **env);
+/* Functions to handle input commands */
 char *get_env_variable(char *var, char **env);
 char *get_command_path(char *command, char **env);
+
+/* functions that executes user commands */
+int (*get_command(char *s))(char **, char **);
+int exec(char **argv, char **env);
+int __exit(char **argv, char **env);
+int env(char **argv, char **env);
+
+
 #endif

@@ -71,18 +71,19 @@ char _strcmp(char *str1, char *str2)
 
 
 /**
- * _strcat - adds str2 to str1
+ * _strcat_command - adds str2 to str1
  *
  * @str1: First string
  * @str2: Second string
  * Return: final string (THE RETURNED STRING SHOULD BE FREED)
  */
-char *_strcat(char *str1, char *str2)
+char *_strcat_command(char *str1, char *str2)
 {
 	char *full_string;
 	int len1;
 	int len2;
 	int i;
+	int j;
 
 	if (!str1)
 		return (NULL);
@@ -93,19 +94,17 @@ char *_strcat(char *str1, char *str2)
 	len1 = _strlen(str1);
 	len2 = _strlen(str2);
 
-	full_string = malloc(len1 + len2 + 1);
+	full_string = malloc(len1 + len2 + 2);
 	if (!full_string)
 		return (NULL);
 
-	for (i = 0; i < len1 + len2; i++)
-	{
-		if (i < len1)
-			full_string[i] = str1[i];
-		else
-			full_string[i] = str2[i];
-	}
-	full_string[len1 + len2] = '\0';
+	for (i = 0; i < len1; i++)
+		full_string[i] = str1[i];
 
+	full_string[i++] = '/';
+	for (j = 0; j <= len2; j++)
+		full_string[i + j] = str2[j];
+	full_string[len1 + len2 + 1] = '\0';
 	return (full_string);
 }
 
@@ -120,20 +119,20 @@ char *_strcat(char *str1, char *str2)
 
 char *_strdup(char *str)
 {
-	int size;
+	int len;
 	char *pointer;
 	int i;
 
 	if (str == NULL)
 		return (NULL);
 
-	size = _strlen(str) + 1;
-	pointer = malloc(size);
+	len = _strlen(str);
+	pointer = malloc(len + 1);
 
 	if (pointer == NULL)
 		return (NULL);
 
-	for (i = 0; i <= size; i++)
+	for (i = 0; i <= len; i++)
 		pointer[i] = str[i];
 
 	return (pointer);

@@ -19,7 +19,7 @@ int exec(char **argv, char **env)
 		return (-1);
 
 	if (!argv[0])
-		return (-1);
+		return (0);
 
 	path_command = get_command_path(argv[0], env);
 	if (!path_command)
@@ -70,9 +70,12 @@ char *get_env_variable(char *var, char **env)
 	if (!env || !var)
 		return (NULL);
 
+
+
 	for (i = 0; env[i] != NULL; i++)
 	{
 		var_value = string_splitter(env[i], '=');
+
 		if (var_value == NULL)
 			return (NULL);
 
@@ -81,6 +84,7 @@ char *get_env_variable(char *var, char **env)
 			value = _strdup(var_value[1]);
 			free_strings_array(var_value);
 			return (value);
+
 		}
 		free_strings_array(var_value);
 	}
@@ -114,7 +118,6 @@ char *get_command_path(char *command, char **env)
 		path_to_command = _strdup(command);
 		if (!path_to_command)
 			return (NULL);
-
 		return (path_to_command);
 	}
 
@@ -127,7 +130,7 @@ char *get_command_path(char *command, char **env)
 
 	for (i = 0; paths[i]; i++)
 	{
-		path_to_command = _strcat(paths[i], command);
+		path_to_command = _strcat_command(paths[i], command);
 		if (!path_to_command)
 			return (NULL);
 
