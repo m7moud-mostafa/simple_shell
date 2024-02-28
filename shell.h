@@ -43,5 +43,8 @@ int exec(char **argv, char **env);
 int __exit(char **argv, char **env);
 int env(char **argv, char **env);
 
+/* Function for main management */
+void interactive_mode(int ac, char **av, char **env);
+void non_interactive_mode(char **av, char **env);
 
 #endif

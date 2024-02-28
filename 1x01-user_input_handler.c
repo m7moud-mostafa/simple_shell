@@ -20,17 +20,9 @@ char **get_user_input()
 	n_chars = getline(&command_string, &n, stdin);
 	if (n_chars == -1)
 	{
-		if (isatty(STDIN_FILENO))
-		{
-			free(command_string);
-			_printf("\n");
-			exit(0);
-		}
-		else
-		{
-			free(command_string);
-			return (NULL);
-		}
+		free(command_string);
+		_printf("\n");
+		exit(0);
 	}
 	arguments = string_splitter(command_string, ' ');
 	if (!arguments)

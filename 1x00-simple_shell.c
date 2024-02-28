@@ -9,6 +9,14 @@
  */
 int main(int ac, char **av, char **env)
 {
+	if (isatty(STDIN_FILENO))
+		interactive_mode(ac, av, env);
+	else
+		non_interactive_mode(av, env);
+}
+
+void interactive_mode(int ac, char **av, char **env)
+{
 	int status;
 	char **argv;
 	int (*command)(char **, char**);
@@ -17,7 +25,7 @@ int main(int ac, char **av, char **env)
 	if (!av || !env)
 	{
 		perror("av or env inside tha main are NULL\n");
-		return (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	if (ac > 1)
 	{
@@ -36,7 +44,7 @@ int main(int ac, char **av, char **env)
 		if (!argv)
 		{
 			perror("argv inside the main is NULL\n");
-			return (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		command = get_command(argv[0]);
 		status = command(argv, env);
@@ -48,4 +56,42 @@ int main(int ac, char **av, char **env)
 		free_strings_array(argv);
 		i++;
 	}
+}
+
+
+void non_interactive_mode(char **av, char **env)
+{
+	char *command_string = NULL;
+	size_t n = 0;
+	ssize_t n_chars = 0;
+	char **argv;
+	int i = 1;
+	int (*command)(char **, char**);
+	int status;
+
+	while (n_chars != -1)
+	{
+		n_chars = getline(&command_string, &n, stdin);
+
+		argv = string_splitter(command_string, ' ');
+		if (!argv)
+		{
+			free(command_string);
+			perror("string splitter error\n");
+			exit(EXIT_FAILURE);
+		}
+
+		command = get_command(argv[0]);
+		status = command(argv, env);
+		if (status == -1)
+		{
+			_printf("%s: %i: %s: not found\n", av[0], i, argv[0]);
+			status = 127;
+		}
+
+		free_strings_array(argv);
+		i++;
+	}
+	free(command_string);
+	exit(status);
 }
