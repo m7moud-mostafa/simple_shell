@@ -16,6 +16,12 @@ int main(int ac, char **av, char **env)
 	return (0);
 }
 
+/**
+ * interactive_mode - Handles the shell in interactive mode
+ * @ac: number of arguments
+ * @av: arguments vector
+ * @env: environment variables
+ */
 void interactive_mode(int ac, char **av, char **env)
 {
 	int status;
@@ -26,16 +32,17 @@ void interactive_mode(int ac, char **av, char **env)
 	if (!av || !env)
 	{
 		perror("av or env inside tha main are NULL\n");
-		exit(EXIT_FAILURE);
-	}
+		exit(EXIT_FAILURE);	}
 	if (ac > 1)
 	{
 		command = get_command(av[1]);
 		status = (command)(av + 1, env);
 		if (status == -1)
 		{
-			_printf("%s: %i: %s: not found\n", av[0], i, av[1]);
-			status = 127;
+			/* _printf("%s: %i: %s: not found\n", av[0], i, av[1]); */
+			/* status = 127; */
+			_printf("%s", av[0]);
+			perror(": No such file or directory\n");
 		}
 		i++;
 	}
@@ -59,7 +66,11 @@ void interactive_mode(int ac, char **av, char **env)
 	}
 }
 
-
+/**
+ * non_interactive_mode - Handles the shell in non-interactive mode
+ * @av: arguments vector
+ * @env: environment variables
+ */
 void non_interactive_mode(char **av, char **env)
 {
 	char *command_string = NULL;
@@ -86,8 +97,10 @@ void non_interactive_mode(char **av, char **env)
 		status = command(argv, env);
 		if (status == -1)
 		{
-			_printf("%s: %i: %s: not found\n", av[0], i, argv[0]);
-			status = 127;
+			/* _printf("%s: %i: %s: not found\n", av[0], i, av[1]); */
+			/* status = 127; */
+			_printf("%s", av[0]);
+			perror(": No such file or directory\n");
 		}
 
 		free_strings_array(argv);
