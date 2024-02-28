@@ -37,13 +37,12 @@ int (*get_command(char *s))(char **, char **)
  */
 int __exit(char **argv, __attribute__((unused)) char **env)
 {
-	if (argv == NULL)
-		exit(EXIT_FAILURE);
+	int status = 0;
 
-	if (argv[1] == NULL)
-		exit(0);
+	if (argv[1] != NULL)
+		status = atoi(argv[1]);
 
-	exit(atoi(argv[1]));
+	exit(status);
 
 	return (-1);
 }
