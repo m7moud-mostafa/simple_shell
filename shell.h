@@ -24,7 +24,7 @@
 typedef struct function
 {
 	char *call;
-	void (*f)(char **, char **);
+	int (*f)(char **, char **);
 } fun_t;
 
 char **get_user_input();

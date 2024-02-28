@@ -7,9 +7,9 @@
 * @s: The command passed as argument.
 * Return: A pointer to a function that takes two arrays of strings as arguments
 *		   If no matching operation is found,
-*		   NULL is returned.
+*		   exec function is returned.
 */
-void (*get_command(char *s))(char **, char **)
+int (*get_command(char *s))(char **, char **)
 {
 	fun_t commands[] = {
 		{"exit", __exit},
@@ -33,8 +33,9 @@ void (*get_command(char *s))(char **, char **)
  *
  * @argv: Arguments
  * @env: Environment variables
+ * Return: -1 for failure
  */
-void __exit(char **argv, char **env)
+int __exit(char **argv, char **env)
 {
 	if (argv == NULL)
 		exit(EXIT_FAILURE);
@@ -43,6 +44,8 @@ void __exit(char **argv, char **env)
 		exit(0);
 
 	exit(atoi(argv[1]));
+
+	return (-1);
 }
 
 
@@ -51,20 +54,26 @@ void __exit(char **argv, char **env)
  *
  * @argv: Arguments
  * @env: Environment variables
+ * Return: -1 for Failure
  */
-void env(char **argv, char **env)
+int env(char **argv, char **env)
 {
 	pid_t pid;
 	int i = 0;
+	int status;
+
+	if (!argv)
+		return (-1);
 
 	if (!env)
-		return;
+		return (0);
+
 
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("error with creating process\n");
-		return;
+		return(-1);
 	}
 
 	if (pid == 0)
@@ -73,7 +82,13 @@ void env(char **argv, char **env)
 		{
 			_printf("%s\n", env[i]);
 		}
+		exit(EXIT_SUCCESS);
 	}
 	else
-		wait(NULL);
+	{
+		wait(&status);
+		if (status != EXIT_SUCCESS)
+			return (-1);
+		return (status);
+	}
 }

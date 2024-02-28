@@ -2,55 +2,47 @@
 
 /**
  * main - main functions
- * 
+ * @ac: number of arguments
+ * @av: arguments vector
+ * @env: environment variables
+ * Return: EXIT_FAILURE
  */
 int main(int ac, char **av, char **env)
 {
 	pid_t pid;
 	int status;
 	char **argv;
+	int (*command)(char **, char**);
+	int i;
 
 	if (!av || !env)
-		return (1);
+		return (EXIT_FAILURE);
 
 	if (ac > 1)
 	{
-		pid = fork();
-		if (pid == -1)
-			return (EXIT_FAILURE);
-		if (pid == 0)
-			exec(av + 1, env);
-		else
-			wait(&status);
+		command = get_command(av[1]);
+		status = command(av + 1, env);
+		if (status == -1)
+		{
+			_printf("%s: %i: %s: not found", av[0], i, av[1]);
+			status = 127;
+		}
+		i++;
 	}
 
 	while (1)
 	{
 		argv = get_user_input();
 		if (!argv)
-		{
-			perror("Invalid Input\n");
-			continue;
-		}
-		if (_strcmp(argv[0], "exit"))
-		{
-			free_strings_array(argv);
-			return (0);
-		}
-
-		pid = fork();
-		if (pid == -1)
 			return (EXIT_FAILURE);
-		if (pid == 0)
+
+		command = get_command(argv[0]);
+		status = command(argv, env);
+		if (status == -1)
 		{
-			exec(argv, env);
-			free_strings_array(argv);
+			_printf("%s: %i: %s: not found", av[0], i, av[1]);
+			status = 127;
 		}
-		else
-		{
-			wait(&status);
-			_printf("%i\n", status);
-			free_strings_array(argv);
-		}
+		i++;
 	}
 }

@@ -1,57 +1,60 @@
 #include "shell.h"
 
 /**
-* get_command - Selects the correct function to perform
-*				 the command asked by the user.
-*
-* @s: The command passed as argument.
-* Return: A pointer to a function that takes two arrays of strings as arguments
-*		   If no matching operation is found,
-*		   NULL is returned.
-*/
-void (*get_command(char *s))(char **, char **)
-{
-	fun_t commands[] = {
-		{"exit", __exit},
-		{"env", env},
-		{NULL, NULL}
-	};
-	int i = 0;
-
-	while (commands[i].call != NULL && *(commands[i].call) != *s)
-		i++;
-
-	if (commands[i].call == NULL || s[1] != '\0')
-		return (exec);
-
-	return (commands[i].f);
-}
-
-
-/**
  * exec - executes a file
  *
  * @argv: array of arguments
  * @env: array of environment variables
+ * Return: -1 when failure
+ *		   status when success
  */
-void exec(char **argv, char **env)
+int exec(char **argv, char **env)
 {
 	int is_executed;
+	char *path_command;
+	pid_t pid;
+	int status;
+
 	if (!argv)
-		exit(EXIT_FAILURE);
+		return (-1);
 
-	is_executed = execve(argv[0], argv, env);
+	if (!argv[0])
+		return (-1);
 
-	if (is_executed == -1)
+	path_command = get_command_path(argv[0], env);
+	if (!path_command)
+		return (-1);
+
+	pid = fork();
+	if (pid == -1)
 	{
-		_printf("%s: No such file or directory\n", argv[0]);
-		exit(EXIT_FAILURE);
+		free(path_command);
+		return (-1);
+	}
+
+	if (pid == 0)
+	{
+		is_executed = execve(path_command, argv, env);
+		if (is_executed == -1)
+		{
+			free(path_command);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		wait(&status);
+		free(path_command);
+		if (status == EXIT_FAILURE)
+			return (-1);
+
+		return (status);
 	}
 }
 
 /**
  * get_env_variable - Get the value of env variable
- * 
+ *
  * @var: the variable which its value should be returned
  * @env: Environment variables
  * Return: the value of the variable
@@ -59,7 +62,9 @@ void exec(char **argv, char **env)
 char *get_env_variable(char *var, char **env)
 {
 	int i;
-	char **var_value; /* var_value[0] = variable name, var_value[1] = variable value */
+	char **var_value; /** var_value[0] = variable name,
+						* var_value[1] = variable value
+						*/
 	char *value;
 
 	if (!env || !var)
@@ -73,7 +78,7 @@ char *get_env_variable(char *var, char **env)
 
 		if (_strcmp(var_value[0], var))
 		{
-			value = var_value[1];
+			value = _strdup(var_value[1]);
 			free_strings_array(var_value);
 			return (value);
 		}
@@ -89,6 +94,7 @@ char *get_env_variable(char *var, char **env)
  * @command: the commend that is being looked for
  * @env: env variables
  * Return: path to command or NULL when failure
+ *		   THE RETURNED VALUE SHOULD BE FREED
  */
 char *get_command_path(char *command, char **env)
 {
@@ -99,11 +105,25 @@ char *get_command_path(char *command, char **env)
 	struct stat statbuf;
 	int stat_return;
 
+	if (!env || !command)
+		return (NULL);
+
+	stat_return = stat(command, &statbuf);
+	if (stat_return != -1)
+	{
+		path_to_command = _strdup(command);
+		if (!path_to_command)
+			return (NULL);
+
+		return (path_to_command);
+	}
+
 	path_value = get_env_variable("PATH", env);
 	if (!path_value)
 		return (NULL);
 
-	paths = string_splitter(path_value,':');
+	paths = string_splitter(path_value, ':');
+	free(path_value);
 
 	for (i = 0; paths[i]; i++)
 	{
@@ -118,54 +138,4 @@ char *get_command_path(char *command, char **env)
 			return (path_to_command);
 	}
 	return (NULL);
-}
-
-/**
- * __exit - exits with code
- * 
- * @argv: Arguments
- * @env: Environment variables
- */
-void __exit(char **argv, char **env)
-{
-	if (argv == NULL)
-		exit(EXIT_FAILURE);
-
-	if (argv[1] == NULL)
-		exit(0);
-
-	exit(atoi(argv[1]));
-}
-
-
-/**
- * env - prints environment variables
- *
- * @argv: Arguments
- * @env: Environment variables
- */
-void env(char **argv, char **env)
-{
-	pid_t pid;
-	int i = 0;
-
-	if (!env)
-		return;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("error with creating process\n");
-		return;
-	}
-
-	if (pid == 0)
-	{
-		while(env[i] != NULL)
-		{
-			_printf("%s\n", env[i]);
-		}
-	}
-	else
-		wait(NULL);
 }

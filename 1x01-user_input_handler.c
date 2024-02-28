@@ -4,7 +4,7 @@
  * get_user_input - A function that asks a user to give command
  *					  and split it and put it in an array.
  *
- * Return: If Success - array of strings that ends with NULL pointer (user splitted input)
+ * Return: If Success - array of input strings that ends with NULL pointer
  *		   If Failure - NULL if failed.
  */
 char **get_user_input()
