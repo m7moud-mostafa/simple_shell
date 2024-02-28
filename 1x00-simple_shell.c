@@ -83,7 +83,7 @@ void non_interactive_mode(char **av, char **env)
 
 	while ((n_chars = getline(&command_string, &n, stdin)) != -1)
 	{
-		
+
 		argv = string_splitter(command_string, ' ');
 		if (!argv)
 		{
