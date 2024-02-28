@@ -29,6 +29,34 @@ int (*get_command(char *s))(char **, char **)
 
 
 /**
+ * _atoi - convert a string to an integer.
+ * @str: the string to convert
+ * Return: the converted integer
+*/
+int _atoi(char *str)
+{
+	int res = 0;
+	int sign = 1;
+	int i = 0;
+
+	if (str[0] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+
+	for (; str[i] != '\0'; ++i)
+	{
+		if (str[i] < '0' || str[i] > '9')
+		{
+			return (-1);
+		}
+		res = res * 10 + str[i] - '0';
+	}
+	return (sign * res);
+}
+
+/**
  * __exit - exits with code
  *
  * @argv: Arguments
@@ -39,9 +67,16 @@ int __exit(char **argv, __attribute__((unused)) char **env)
 {
 	int status = 0;
 
-	exit(status);
+	if (argv[1] == NULL)
+		exit(0);
 
-	return (-1);
+    status = _atoi(argv[1]);
+    if (status == -1)
+	{
+		return (2);
+    }
+
+    exit(status);
 }
 
 
