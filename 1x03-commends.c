@@ -39,9 +39,6 @@ int __exit(char **argv, __attribute__((unused)) char **env)
 {
 	int status = 0;
 
-	if (argv[1] != NULL)
-		status = atoi(argv[1]);
-
 	exit(status);
 
 	return (-1);
