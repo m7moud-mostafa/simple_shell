@@ -70,13 +70,12 @@ int __exit(char **argv, __attribute__((unused)) char **env)
 	if (argv[1] == NULL)
 		exit(0);
 
-    status = _atoi(argv[1]);
-    if (status == -1)
-	{
+	status = _atoi(argv[1]);
+	if (status == -1)
 		return (2);
-    }
 
-    exit(status);
+
+	exit(status);
 }
 
 
