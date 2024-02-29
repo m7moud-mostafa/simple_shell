@@ -3,8 +3,11 @@
 
 #include <stdio.h>     /* For fflush, getline, perror */
 #include <stdlib.h>    /* For malloc, free, exit */
-#include <unistd.h>    /* For access, chdir, close, execve, _exit, fork, getcwd, getpid, isatty, read, write */
-#include <sys/types.h> /* For open, stat, lstat, fstat, wait, waitpid, wait3, wait4 */
+#include <unistd.h>
+ /* For access, chdir, close, execve, _exit */
+ /* fork, getcwd, getpid, isatty, read, write */
+#include <sys/types.h>
+/* For open, stat, lstat, fstat, wait, waitpid, wait3, wait4 */
 #include <sys/stat.h>  /* For stat, lstat, fstat */
 #include <fcntl.h>     /* For open */
 #include <dirent.h>    /* For opendir, readdir, closedir */
@@ -36,12 +39,13 @@ char *extract_word(char *str, int *i, char sep);
 /* Functions to handle input commands */
 char *get_env_variable(char *var, char **env);
 char *get_command_path(char *command, char **env);
+int _atoi(char *str);
 
 /* functions that executes user commands */
 int (*get_command(char *s))(char **, char **);
 int exec(char **argv, char **env);
-int __exit(char **argv, char **env);
-int env(char **argv, char **env);
+int __exit(char **argv, __attribute__((unused)) char **env);
+int env(__attribute__((unused)) char **argv, char **env);
 
 /* Function for main management */
 void interactive_mode(int ac, char **av, char **env);
