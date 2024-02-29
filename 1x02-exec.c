@@ -15,11 +15,8 @@ int exec(char **argv, char **env)
 	pid_t pid;
 	int status;
 
-	if (!argv)
+	if (!argv || !argv[0])
 		return (-1);
-
-	if (!argv[0])
-		return (0);
 
 	path_command = get_command_path(argv[0], env);
 	if (!path_command)
