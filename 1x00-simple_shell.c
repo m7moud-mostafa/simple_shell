@@ -97,6 +97,7 @@ void non_interactive_mode(char **av, char **env)
 			_printf("%s: %i: %s: not found\n", av[0], i, argv[0]);
 			status = 127;
 		}
+
 		else if (status == 2)
 			_printf("%s: %i:exit: Illegal number: %s\n", av[0], i, argv[1]);
 		free_strings_array(argv);
