@@ -112,7 +112,7 @@ int env(__attribute__((unused)) char **argv, char **env)
  * Return: 3 when failure 
  *		   0 when success
  */
-int cd(char **argv, __attribute__((unused)) char **env)
+int cd(char **argv, char **env)
 {
 	int status;
 	char *home_value;
