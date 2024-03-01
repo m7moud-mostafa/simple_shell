@@ -14,6 +14,7 @@ int (*get_command(char *s))(char **, char **)
 	fun_t commands[] = {
 		{"exit", __exit},
 		{"env", env},
+		{"cd", cd},
 		{NULL, NULL}
 	};
 	int i = 0;
@@ -100,4 +101,31 @@ int env(__attribute__((unused)) char **argv, char **env)
 	}
 	return (0);
 
+}
+
+
+/**
+ * cd - Navigates into directories
+ *
+ * @argv: Arguments
+ * @env: Environment variables
+ * Return: 3 when failure 
+ *		   0 when success
+ */
+int cd(char **argv, __attribute__((unused)) char **env)
+{
+	int status;
+	char *home_value;
+
+	if (!argv[1])
+	{
+		home_value = get_env_variable("HOME", env);
+		chdir(home_value);
+		free(home_value);
+		return (0);
+	}
+	status = chdir(argv[1]);
+	if (status == (-1))
+		perror("directory is not found\n");
+	return (0);
 }
