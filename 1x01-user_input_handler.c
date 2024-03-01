@@ -67,7 +67,7 @@ char **string_splitter(char *str, char sep)
 		return (NULL);
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != '\n')
+	while (str[i] != '\0' && str[i] != '\n' && str[i] != '#')
 	{
 		if (str[i] != sep)
 		{
