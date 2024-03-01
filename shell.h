@@ -47,8 +47,8 @@ int exec(char **argv, char **env);
 int __exit(char **argv, __attribute__((unused)) char **env);
 int env(__attribute__((unused)) char **argv, char **env);
 int cd(char **argv, __attribute__((unused)) char **env);
+
 /* Function for main management */
 void interactive_mode(int ac, char **av, char **env);
 void non_interactive_mode(char **av, char **env);
-
 #endif
