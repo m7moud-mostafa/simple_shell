@@ -5,7 +5,8 @@
  * @ac: number of arguments
  * @av: arguments vector
  * @env: environment variables
- * Return: EXIT_FAILURE
+ * Return: EXIT_FAILURE when failure
+ *		   0 when success
  */
 int main(int ac, char **av, char **env)
 {
