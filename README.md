@@ -18,7 +18,7 @@ By the end of this project, I aim to demonstrate a comprehensive understanding o
 - Environment manipulation
 - Development of problem-solving and engineering skills
 
-## This Function was built using only some of these functions
+## This Project was built using only some of these functions
 
 `access`, `chdir`, `close`, `closedir`, `execve`, `exit`, `_exit`, `fflush`, `fork`, `free`, `getcwd`, `getline`, `getpid`, `isatty`, `kill`, `malloc`, `open`, `opendir`, `perror`, `read`, `readdir`, `signal`, `stat (__xstat)`, `lstat (__lxstat)`, `fstat (__fxstat)`, `strtok`, `wait`, `waitpid`, `wait3`, `wait4`, `write`
 
