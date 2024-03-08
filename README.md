@@ -51,7 +51,7 @@ $ echo "/bin/ls" | ./hsh
 - Basic command line interpretation
 - Execution of commands in the PATH
 - Handling of command lines with arguments
-- Implementation of built-in commands like `exit` and `env`
+- Implementation of built-in commands like `exit`, `env`, `cd`
 
 ## Author
 
